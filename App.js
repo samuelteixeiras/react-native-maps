@@ -6,6 +6,7 @@ var {
   ScrollView,
   Text,
 } = React;
+var Hyundai = require('./examples/Hyundai');
 var DisplayLatLng = require('./examples/DisplayLatLng');
 var ViewsAsMarkers = require('./examples/ViewsAsMarkers');
 var EventListener = require('./examples/EventListener');
@@ -64,6 +65,7 @@ var App = React.createClass({
 
   render() {
     return this.renderExamples([
+      [Hyundai, 'Hyundai'],
       [DisplayLatLng, 'Tracking Position'],
       [ViewsAsMarkers, 'Arbitrary Views as Markers'],
       [EventListener, 'Events'],

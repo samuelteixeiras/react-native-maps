@@ -6,6 +6,7 @@
     "start": "react-native start"
   },
   "dependencies": {
-    "react-native": "^0.16.0"
+    "geodesy": "^1.0.2",
+    "react-native": "github:christopherdro/react-native.git#animated-region"
   }
 }
