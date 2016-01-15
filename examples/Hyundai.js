@@ -42,6 +42,7 @@ var Hyundai = React.createClass({
         coordinate: {latitude: 34.1036520, longitude: -118.2980330}
       },
       direction: 0,
+      rotation: 0,
     };
   },
   componentDidMount: function() {
@@ -90,11 +91,27 @@ var Hyundai = React.createClass({
   },
 
   startJourney() {
+    console.log('start jouney')
     let startMarker = this.state.markers.find(a => a.key === 'saddr');
     let endMarker = this.state.markers.find(a => a.key === 'daddr');
     let polyline = this.state.polyline;
 
     let timer = 0;
+
+    let nextCoordinateIndex = 0
+    let nextCoordinate = null
+
+    let intervalStartTime = Date.now()
+    let tween = (c) => {
+      if (nextCoordinateIndex < polyline.length + 1 && this.isMounted()) requestAnimationFrame(tween);
+      if (!nextCoordinate || !lastCoordinate) return;
+      let deltaLat = nextCoordinate.latitude - lastCoordinate.latitude;
+      let deltaLong = nextCoordinate.longitude - lastCoordinate.longitude;
+      let scale = (Date.now() - intervalStartTime)/MOCK_INTERVAL;
+      let car = this.state.car
+      car.coordinate = {longitude: lastCoordinate.longitude + deltaLong*scale, latitude: lastCoordinate.latitude + deltaLat*scale};
+      if(this.isMounted()) this.setState({car: {...car}})
+    }
 
     if (this.state.polyline) {
       this.state.polyline.forEach((c, i) => {
@@ -102,7 +119,13 @@ var Hyundai = React.createClass({
         setTimeout(() => {
           let direction = this.calculateDirection(lastCoordinate, c);
           console.log(`Moving to coordinate: ${c.latitude}, ${c.longitude}. Direction ${direction}`);
+
+          // tween vars
           lastCoordinate = c;
+          nextCoordinate = this.state.polyline[i + 1];
+          nextCoordinateIndex++;
+          intervalStartTime = Date.now();
+
           this.setState({
             rotation: direction,
             car:
@@ -114,6 +137,7 @@ var Hyundai = React.createClass({
           });
         }, timer += MOCK_INTERVAL);
       });
+      if (TWEEN_CAR) tween() // start tween
     }
   },
 
