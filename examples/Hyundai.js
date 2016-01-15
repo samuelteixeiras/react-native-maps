@@ -125,7 +125,7 @@ var Hyundai = React.createClass({
           nextCoordinateIndex++;
           intervalStartTime = Date.now();
 
-          let direction = this.calculateDirection(lastCoordinate, nextCoordinate);
+          let direction = (lastCoordinate && nextCoordinate) ? this.calculateDirection(lastCoordinate, nextCoordinate) : 0;
           console.log(`Moving to coordinate: ${c.latitude}, ${c.longitude}. Direction ${direction}`);
 
           this.setState({
