@@ -98,8 +98,9 @@ var Hyundai = React.createClass({
 
     let timer = 0;
 
-    let nextCoordinateIndex = 0
-    let nextCoordinate = null
+    let nextCoordinateIndex = 0;
+    let nextCoordinate = null;
+    let lastCoordinate = polyline[0];
 
     let intervalStartTime = Date.now()
     let tween = (c) => {
@@ -115,16 +116,17 @@ var Hyundai = React.createClass({
 
     if (this.state.polyline) {
       this.state.polyline.forEach((c, i) => {
-        lastCoordinate = c;
+        // lastCoordinate = c;
         setTimeout(() => {
-          let direction = this.calculateDirection(lastCoordinate, c);
-          console.log(`Moving to coordinate: ${c.latitude}, ${c.longitude}. Direction ${direction}`);
 
           // tween vars
           lastCoordinate = c;
           nextCoordinate = this.state.polyline[i + 1];
           nextCoordinateIndex++;
           intervalStartTime = Date.now();
+
+          let direction = this.calculateDirection(lastCoordinate, nextCoordinate);
+          console.log(`Moving to coordinate: ${c.latitude}, ${c.longitude}. Direction ${direction}`);
 
           this.setState({
             rotation: direction,
