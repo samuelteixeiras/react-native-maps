@@ -76,6 +76,14 @@ var MapView = React.createClass({
     zoomEnabled: PropTypes.bool,
 
     /**
+     * If `false` the user won't be able to pinch/rotate the map.
+     * Default value is `true`.
+     *
+     * @platform ios
+     */
+    rotateEnabled: PropTypes.bool,
+
+    /**
      * If `false` the user won't be able to change the map region being displayed.
      * Default value is `true`.
      *

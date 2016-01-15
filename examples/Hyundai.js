@@ -148,6 +148,8 @@ var Hyundai = React.createClass({
     return (
       <View style={styles.container}>
         <MapView
+          rotateEnabled={false}
+          zoomEnabled={false}
           ref="mapview"
           style={styles.map}
         >
